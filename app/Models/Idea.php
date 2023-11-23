@@ -9,9 +9,13 @@ class Idea extends Model
 {
     use HasFactory;
 
+    protected $guarded =[];
 
     protected $fillable = [
         'content',
         'like'
     ];
+    public function comments(){
+        return $this->hasMany(Comment::class, 'idea_id', 'id');
+    }
 }
