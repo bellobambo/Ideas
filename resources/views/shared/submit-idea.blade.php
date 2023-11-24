@@ -1,6 +1,8 @@
+@auth()
+
 <h4> Share yours ideas </h4>
 <div class="row">
-    <form action="{{ route('idea.store') }}" method="post">
+    <form action="{{ route('ideas.store') }}" method="post">
         @csrf
         <div class="mb-3">
             <textarea name="content" class="form-control" id="content" rows="3"></textarea>
@@ -15,3 +17,8 @@
         </div>
     </form>
 </div>
+
+@endauth
+@guest
+<h4>Login to Share yours ideas </h4>
+@endguest

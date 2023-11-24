@@ -9,38 +9,22 @@ class IdeaController extends Controller
 {
 
 
-    public function show(Idea $idea){
+    public function show(Idea $idea)
+    {
 
-        dd($idea->comments);
+        // dd($idea->comments);
         return view("ideas.show", compact("idea"));
     }
-
-    public function edit(Idea $idea){
-        $editing = true;
-        return view("ideas.show", compact("idea", "editing"));
-    }
-    public function update(Idea $idea){
-
-       $validated = request()->validate([
-            'content' => 'required|min:5|max:250'
-        ]);
-
-
-        $idea->content = request()->get('content', '');
-
-        $idea->update($validated);
-
-        return redirect()->route('ideas.show', $idea->id)->with('success','idea updated successfully');
-    }
-
     public function store()
     {
 
-      $validated =  request()->validate([
+
+        $validated = request()->validate([
             'content' => 'required|min:5|max:250'
         ]);
 
 
+        $validated['user_id'] = auth()->id();
 
         $idea = Idea::create($validated);
 
@@ -50,8 +34,46 @@ class IdeaController extends Controller
 
     public function destroy(Idea $idea)
     {
+
+        if (auth()->id() !== $idea->user_id) {
+            abort(404);
+        }
+
+
         $idea->delete();
         return redirect()->route('dashboard')->with('success', 'Idea was created successfully!');
 
     }
+
+    public function edit(Idea $idea)
+    {
+
+        if (auth()->id() !== $idea->user_id) {
+            abort(404);
+        }
+
+
+        $editing = true;
+        return view("ideas.show", compact("idea", "editing"));
+    }
+    public function update(Idea $idea)
+    {
+
+        if (auth()->id() !== $idea->user_id) {
+            abort(404);
+        }
+
+
+        $validated = request()->validate([
+            'content' => 'required|min:5|max:250'
+        ]);
+
+
+        $idea->content = request()->get('content', '');
+
+        $idea->update($validated);
+
+        return redirect()->route('ideas.show', $idea->id)->with('success', 'idea updated successfully');
+    }
+
 }

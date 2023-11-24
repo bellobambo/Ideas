@@ -18,7 +18,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|min:3|max:40',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:8'
+            'password' => 'required|confirmed|min:8',
         ]);
 
         User::create([
@@ -29,4 +29,47 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Account created successfully');
     }
+
+
+
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    public function authenticate()
+    {
+
+        // dd(request()->all());
+
+        $validated = request()->validate([
+
+            'email' => 'required|email',
+            'password' => 'required|min:8'
+        ]);
+
+        if (auth()->attempt($validated)) {
+
+            request()->session()->regenerate();
+
+            return redirect()->route('dashboard')->with('success', 'Login Successful');
+        }
+        ;
+
+        return redirect()->route('login')->withErrors([
+            'email' => 'No Matching email and password was found'
+        ]);
+    }
+
+    public function logout(){
+        auth()->logout();
+
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect()->route('dashboard')->with('success', 'Login Out Successful');
+
+    }
+
+
 }
