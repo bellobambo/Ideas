@@ -8,7 +8,7 @@
         <div class="col-6">
             @include('shared.success')
             <div class="mt-3">
-                @include('shared.user-card')
+                @include('users.shared.user-card')
 
             </div>
 
@@ -16,7 +16,7 @@
             @forelse ($ideas as $idea)
                 <div class="mt-3">
 
-                    @include('shared.idea-card')
+                    @include('ideas.shared.idea-card')
                 </div>
             @empty
                 <p class="text-center mt-4"> No Result Found</p>
