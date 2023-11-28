@@ -19,7 +19,9 @@
 
         </ul>
     </div>
-    <div class="card-footer text-center py-2">
-        <a class="nav-link {{ Route::is('profile') ? 'text-white bg-primary rounded' : '' }}" href="{{route('profile')}}">View Profile </a>
+    <div class="card-footer text-center py-2 flex">
+        <a class="btn btn-link btn-sm" href="{{route('lang', 'en')}}">en </a>
+        <a class="btn btn-link btn-sm" href="{{route('lang', 'es')}}">es </a>
+        <a class="btn btn-link btn-sm" href="{{route('lang', 'fr')}}">fr </a>
     </div>
 </div>

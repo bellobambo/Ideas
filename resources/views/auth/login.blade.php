@@ -1,5 +1,5 @@
 @extends('layout.layout')
-
+@section('title', 'Admin-Dashboard')
 @section('content')
 
  <div class="row justify-content-center">
